@@ -23,11 +23,14 @@ m3uco.py [-h] [--destination DIR] [--rename] [--numbering] [--flat]
 
   --destination DIR, -d DIR
                         Destination directory
+
   --rename, -r          Renames files in the target directory according to
                         this pattern <artist> - <title>.
+
   --numbering, -n       Add numbering to rename files, so that the rename
                         pattern becomes <#> <artist> - <title>. Requires
                         --rename option.
+
   --flat, -f            Prevents from creating a subdirectory for each
                         playlist.
 
