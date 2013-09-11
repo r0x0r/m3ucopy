@@ -20,7 +20,6 @@ m3uco.py [-h] [--destination DIR] [--rename] [--numbering] [--flat]
 
   playlists             Playlist files separated by spaces
 
-
   -h, --help            show this help message and exit
   --destination DIR, -d DIR
                         Destination directory
@@ -31,4 +30,5 @@ m3uco.py [-h] [--destination DIR] [--rename] [--numbering] [--flat]
                         --rename option.
   --flat, -f            Prevents from creating a subdirectory for each
                         playlist.
+
 
