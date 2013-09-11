@@ -40,7 +40,7 @@ import id3reader
 import logging
 from glob import glob
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
 logger.info("Python version: " + sys.version)
@@ -61,7 +61,7 @@ def parse_args():
 
 def main(args):
     logger.debug(args)
-
+    
     filenames = []
     for arg in args.playlists:
         for filename in glob(arg):
@@ -72,6 +72,7 @@ def main(args):
     for file in set(filenames):
         try:
             with open(file, "rU") as m3u:
+                print "\nProcessing %s" % file
                 target = args.destination
 
                 if not args.flat: #put files into subdirectories
@@ -83,17 +84,19 @@ def main(args):
                 if not os.path.isdir(target):
                     os.makedirs(target)
 
-                copy_m3u(m3u, target, args.rename, args.numbering)
+                print "\t%d files copied, %d files skipped." % copy_m3u(m3u, target, args.rename, args.numbering)
 
         except IOError:
-            logger.error(" File 404: %s")
+            logger.critical(" Playlist 404: %s" % file)
 
 
 def copy_m3u(m3u, target, is_rename, is_numbering):
     n = 1
+    copied = 0
+    skipped = 0
 
     for line in m3u:
-        if line[0] != "#":
+        if line.strip()[0] != "#":
             src = os.path.abspath(line.strip())
 
             logger.debug("Entry: %s" % line)
@@ -103,7 +106,9 @@ def copy_m3u(m3u, target, is_rename, is_numbering):
                 filename = os.path.basename(src)
 
                 if is_rename:
-                    filename = rename(src, is_numbering)
+                    filename = rename(src, is_numbering, n)
+                    
+                n = n + 1
 
                 dst = os.path.join(target, filename)
                 logger.debug("Destination: %s" % dst)
@@ -111,24 +116,25 @@ def copy_m3u(m3u, target, is_rename, is_numbering):
                 #halt if source is fresher than destination
                 if os.path.exists(dst) and os.stat(src).st_mtime - os.stat(dst).st_mtime < 1:
                     logger.info("File exists. Skipping.")
+                    skipped = skipped + 1
                     continue
 
                 shutil.copy2 (src, dst)
+                copied = copied + 1
             else:
                 logger.error(" File 404: %s" % src)
 
+    return (copied, skipped)
 
-        n = n + 1
 
-
-def rename(src, is_numbering):
+def rename(src, is_numbering = False, n=None):
     try:
         logger.info("Path exists")
         id3r = id3reader.Reader(src)
         artist = id3r.getValue("performer")
         title = id3r.getValue("title")
 
-        if is_numbering:
+        if is_numbering and n != None:
             filename = "%02d %s - %s" % (n, artist, title) + os.path.splitext(src)[1]
         else:
             filename = "%s - %s" % (artist, title) + os.path.splitext(src)[1]
