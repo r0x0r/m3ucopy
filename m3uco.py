@@ -51,7 +51,7 @@ def parse_args():
     parser.add_argument('--destination', '-d', metavar='DIR', help='Destination directory', default=os.getcwd())
     parser.add_argument('--rename', '-r',  help='Renames files in the target directory according to this pattern <artist> - <title>.',
         action='store_true', default=False)
-    parser.add_argument('--numbering', '-n', help='Add numbering to rename files, so that the rename pattern becomes <#> <artist> - <title>. Requires --rename option.',
+    parser.add_argument('--numbering', '-n', help='Add numbering to new file names, so that the rename pattern becomes <#> <artist> - <title>. Requires --rename option.',
         action='store_true', default=False)
     parser.add_argument('--flat', '-f', help='Prevents from creating a subdirectory for each playlist.', action='store_true', default=False)
 

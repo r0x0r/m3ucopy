@@ -27,7 +27,7 @@ m3uco.py [-h] [--destination DIR] [--rename] [--numbering] [--flat]
   --rename, -r          Renames files in the target directory according to
                         this pattern <artist> - <title>.
 
-  --numbering, -n       Add numbering to rename files, so that the rename
+  --numbering, -n       Add numbering to new file names, so that the rename
                         pattern becomes <#> <artist> - <title>. Requires
                         --rename option.
 
