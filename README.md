@@ -17,10 +17,10 @@ USAGE
 m3uco.py [-h] [--destination DIR] [--rename] [--numbering] [--flat]
                 playlists [playlists ...]
 
-
   playlists             Playlist files separated by spaces
 
   -h, --help            show this help message and exit
+
   --destination DIR, -d DIR
                         Destination directory
   --rename, -r          Renames files in the target directory according to
