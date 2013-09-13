@@ -97,7 +97,7 @@ def copy_m3u(m3u, target, is_rename, is_numbering):
 
     for line in m3u:
         if line.strip()[0] != "#":
-            src = os.path.abspath(line.strip())
+            src =  os.path.abspath(line.decode('utf-8-sig').strip())
 
             logger.debug("Entry: %s" % line)
             logger.debug("Abspath: %s" % src)
