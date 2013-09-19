@@ -2,12 +2,10 @@ m3uco.py
 =======
 Version: 1.0 beta
 
-A simple command tool that copies all the files from m3u playlists to a specified directory
-creating a separate subdir for each playlist. Additional options allow to flatten a directory 
-structure or rename files according to their ID3 tags.
+A simple command tool that copies files from a m3u playlist(s) to a destination directory. Useful for transferring
+music in playlists to another computer. By defauft sub-directories are created for each playlst. Additional options 
+allow to flatten a directory structure or rename files according to their ID3 tags.
 
-The tool is useful for consolidating your playlists into a neat directory structure with all
- the files present in a specified location for an easy transfer to another location
 
 
 
