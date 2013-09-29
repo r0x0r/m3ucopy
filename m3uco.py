@@ -86,8 +86,9 @@ def main(args):
 
                 print "\t%d files copied, %d files skipped." % copy_m3u(m3u, target, args.rename, args.numbering)
 
-        except IOError:
-            logger.critical(" Playlist 404: %s" % file)
+        except IOError as e:
+            logger.critical(e);
+            #logger.critical(" Playlist 404: %s" % file)
 
 
 def copy_m3u(m3u, target, is_rename, is_numbering):
@@ -105,7 +106,7 @@ def copy_m3u(m3u, target, is_rename, is_numbering):
             if os.path.exists(src):
                 filename = os.path.basename(src)
 
-                if is_rename:
+                if is_rename and rename(src, is_numbering, n):
                     filename = rename(src, is_numbering, n)
                     
                 n = n + 1
@@ -134,16 +135,26 @@ def rename(src, is_numbering = False, n=None):
         artist = id3r.getValue("performer")
         title = id3r.getValue("title")
 
+        if artist is None or title is None:
+            return None
+
         if is_numbering and n != None:
             filename = "%02d %s - %s" % (n, artist, title) + os.path.splitext(src)[1]
         else:
             filename = "%s - %s" % (artist, title) + os.path.splitext(src)[1]
 
         logger.info("New filename: " + filename)
-        return filename if artist and title else src
+        return sanitize(filename) if artist and title else src
+        
 
-    except TypeError:
+    except:
         return None
+
+
+def sanitize(filename):
+    validchars = ",.()+-_;' "
+    filename = filename.replace("\"", "''").replace("\\", "-").replace("/", "+").replace(":", "-")
+    return "".join(c for c in filename if c.isalnum() or c in validchars).rstrip();
 
 
 if __name__ == "__main__":
