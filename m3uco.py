@@ -152,7 +152,7 @@ def rename(src, is_numbering = False, n=None):
 
 
 def sanitize(filename):
-    validchars = ",.()+-_;' "
+    validchars = ",.()+-_;' &[]!"
     filename = filename.replace("\"", "''").replace("\\", "-").replace("/", "+").replace(":", "-")
     return "".join(c for c in filename if c.isalnum() or c in validchars).rstrip();
 
